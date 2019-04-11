@@ -16,8 +16,11 @@ namespace WebApplication2.APIModel
         public string ProfileImage { get; set; }
 
         public string Address { get; set; }
+        public string Designation { get; set; }
+        public string PermanentAddress { get; set; }
 
         public Telephone Telephone { get; set; }
+        public List<Subjects> Subjects { get; set; }
     }
 
     public class Telephone

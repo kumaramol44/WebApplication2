@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Data.Entity.Spatial;
 
 #pragma warning disable
@@ -45,5 +46,12 @@ namespace WebApplication2
         [Required]
         [Column(TypeName = "numeric")]
         public int Mobile { get; set; }
+
+        public string Designation { get; set; }
+
+        public string PermanentAddress { get; set; }
+
+        public ICollection<EmpSubject> Subjects { get; set; }
+
     }
 }

@@ -53,6 +53,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -185,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIModel\Employee.cs" />
+    <Compile Include="APIModel\Subjects.cs" />
     <Compile Include="ApplicationEnums\ApplicationEnums.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -228,9 +230,19 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DatabaseContext\EmployeeContext.cs" />
     <Compile Include="DatabaseModel\Employee.cs" />
+    <Compile Include="DatabaseModel\EmpSubject.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904100824461_InitialCreate.cs" />
+    <Compile Include="Migrations\201904100824461_InitialCreate.Designer.cs">
+      <DependentUpon>201904100824461_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904100841566_MigrationForRoleInEmp.cs" />
+    <Compile Include="Migrations\201904100841566_MigrationForRoleInEmp.Designer.cs">
+      <DependentUpon>201904100841566_MigrationForRoleInEmp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -328,6 +340,14 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904100824461_InitialCreate.resx">
+      <DependentUpon>201904100824461_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904100841566_MigrationForRoleInEmp.resx">
+      <DependentUpon>201904100841566_MigrationForRoleInEmp.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -9,11 +9,16 @@ namespace WebApplication2
     public partial class EmployeeContext : DbContext
     {
         public EmployeeContext()
-            : base("name=EmployeeContext")
+            : base()
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EmployeeContext, WebApplication2.Migrations.Configuration>());
         }
 
         public virtual DbSet<Employee> Employees { get; set; }
+
+        public virtual DbSet<EmpSubject> Subjects { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -47,6 +52,18 @@ namespace WebApplication2
             modelBuilder.Entity<Employee>()
                 .Property(e => e.Mobile).IsRequired();
 
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Mobile).IsRequired();
+
+            modelBuilder.Entity<EmpSubject>()
+                .Property(e => e.Id)
+                .HasColumnName("Id");
+
+
+            modelBuilder.Entity<EmpSubject>()
+                .HasRequired<Employee>(s => s.Employee)
+                .WithMany(g => g.Subjects)
+                .HasForeignKey<int>(s => s.EmployeeId);
         }
     }
 }

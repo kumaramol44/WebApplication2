@@ -9,6 +9,8 @@ using WebApplication2.APIModel;
 using WebApplication2.CommonMethods;
 using WebApplication2;
 using Employee = WebApplication2.Employee;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 #pragma warning disable
 
@@ -72,7 +74,16 @@ namespace WebApplication2.Services
                 Salary = employee.Salary,
                 WorkContact = employee.Telephone.WorkContact,
                 Mobile = employee.Telephone.Mobile,
-                ProfileImage = employee.ProfileImage
+                ProfileImage = employee.ProfileImage,
+                Designation = employee.Designation,
+                PermanentAddress = employee.PermanentAddress,
+                Subjects = employee.Subjects.Select(t => new EmpSubject
+
+                {
+                    EmployeeId = employee.Id,
+                    Subjects = t.Subject
+
+                }).ToList()
             };
             db.Employees.Add(emp);
             db.SaveChanges();
@@ -90,20 +101,25 @@ namespace WebApplication2.Services
             db.SaveChanges();
         }
 
-        public WebApplication2.APIModel.Employee Update(WebApplication2.APIModel.Employee employee)
+        public WebApplication2.APIModel.Employee Update(int id, WebApplication2.APIModel.Employee employee)
         {
-            ValidateEmployee(employee);
-            var emp = db.Employees.Where(t => t.Id == employee.Id).FirstOrDefault();
+            //ValidateEmployee(employee);
+            var emp = db.Employees.Where(t => t.Id == id).FirstOrDefault();
             if (emp != null)
             {
-                emp.Name = employee.Name;
-                emp.Address = employee.Address;
-                emp.Gender = employee.Gender;
-                emp.Age = employee.Age;
-                emp.Salary = employee.Salary;
-                emp.WorkContact = employee.Telephone.WorkContact;
-                emp.Mobile = employee.Telephone.Mobile;
-                emp.ProfileImage = employee.ProfileImage;
+                emp.Name = employee.Name != null ? employee.Name : emp.Name;
+                emp.Address = employee.Name != null ? employee.Name : emp.Address;
+                emp.Gender = employee.Gender != null ? employee.Gender : emp.Gender;
+                emp.Age = employee.Age != null ? employee.Age : emp.Age;
+                emp.Salary = employee.Salary != null ? employee.Salary : emp.Salary;
+                emp.WorkContact = employee.Telephone != null ? employee.Telephone.WorkContact != null ? employee.Telephone.WorkContact : emp.WorkContact : emp.WorkContact;
+                emp.Mobile = employee.Telephone != null ? employee.Telephone.Mobile != null ? employee.Telephone.Mobile : emp.Mobile : emp.Mobile;
+                emp.ProfileImage = employee.ProfileImage != null ? employee.ProfileImage : emp.ProfileImage;
+                emp.Subjects = employee.Subjects != null ? employee.Subjects.Select(t => new EmpSubject
+                {
+                    Subjects = t.Subject,
+                    EmployeeId = emp.Id
+                }).ToList() : new List<EmpSubject>();
 
                 db.SaveChanges();
 

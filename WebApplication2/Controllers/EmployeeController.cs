@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Microsoft.Owin.Logging;
 using WebApplication2.Services;
 using Swashbuckle.Swagger.Annotations;
 using Swashbuckle.Swagger;
@@ -17,11 +18,10 @@ namespace WebApplication2.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class EmployeeController : ApiController
     {
         EmployeeServices emp_service = new EmployeeServices();
-
         /// <summary>
         /// Get all the employees.For Gender,Enums are specified as Male=1,Female=2.For Image base64 String is present.
         /// </summary>
@@ -46,7 +46,7 @@ namespace WebApplication2.Controllers
         /// <returns></returns>
         // GET api/<controller>/5
         [HttpGet]
-        [Route("api/Employee/{id}")]
+        [Route("api/Employee/{id}")] 
         [ResponseType(typeof(APIModel.Employee))]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
@@ -99,28 +99,27 @@ namespace WebApplication2.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You only have read operation.Unauthorized access.");
             }
-
-
         }
         /// <summary>
         /// This API is to update the Employee details.For Gender,Enums are specified as Male=1,Female=2.For Image provide valid base64 image.
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="employee"></param>
         /// <returns></returns>
         // PUT api/<controller>/5
         [HttpPut]
-        [Route("api/Employee")]
+        [Route("api/Employee/{id}")]
         [ResponseType(typeof(APIModel.Employee))]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
         [SwaggerResponse(HttpStatusCode.BadRequest)]
-        public HttpResponseMessage Put([FromBody]APIModel.Employee employee)
+        public HttpResponseMessage Put(int id, APIModel.Employee employee)
         {
             if (!HelperFunctions.fBrowserIsMobile())
             {
                 try
                 {
-                    var updateEmp = emp_service.Update(employee);
+                    var updateEmp = emp_service.Update(id, employee);
                     if (updateEmp == null)
                     {
                         return Request.CreateResponse(HttpStatusCode.NotFound, "Employee Not Found");
